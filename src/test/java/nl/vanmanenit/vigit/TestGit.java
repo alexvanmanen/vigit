@@ -16,15 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestGit {
 
-    private static String testGitRepo = "testGitRepo";
+    private static final String testGitRepo = "testGitRepo";
 
     @BeforeAll
     public static void beforeAllCreateTestGitRepo() throws IOException, InterruptedException {
-        new ProcessBuilder("mkdir", testGitRepo).start();
-        ProcessBuilder processBuilder = new ProcessBuilder("git", "init");
-        processBuilder.directory(new File(testGitRepo));
-        Process gitInitProcess = processBuilder.start();
-        gitInitProcess.waitFor();
+        new ProcessManager().execute("mkdir", testGitRepo);
+        new ProcessManager().execute(new File(testGitRepo), "git", "init");
     }
 
 
@@ -71,7 +68,7 @@ public class TestGit {
     }
 
     @AfterAll
-    public static void AfterAllRemoveGitRepo() throws IOException {
-        new ProcessBuilder("rm", "-rf", testGitRepo).start();
+    public static void AfterAllRemoveGitRepo() throws IOException, InterruptedException {
+        new ProcessManager().execute("rm", "-rf", testGitRepo);
     }
 }
